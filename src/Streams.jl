@@ -3,6 +3,8 @@ module Streams
 using Dates
 using Base: RefValue
 
+export Stream, TimeStream, lift
+
 unixnow() = datetime2unix(now())
 
 struct Event{T}
@@ -72,17 +74,5 @@ function current(t::TimeStream)
     return Event(time, t.f(time))
 end
 update!(t::TimeStream) = t
-
-s1 = Stream(1)
-s2 = Stream(2)
-s3 = TimeStream{Float64}(sin)
-s4 = lift(+, s1, s2, s3)
-@info "initial value"
-@show s4
-
-@info "changing one addend"
-s2[] = 100
-@show s4
-
 
 end
